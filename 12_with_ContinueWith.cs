@@ -11,8 +11,6 @@ namespace TasksHW
     {
         static void Main(string[] args)
         {
-            CancellationTokenSource tokenSource = new CancellationTokenSource();
-
             int number = 1;
             int sum = 0;
 
