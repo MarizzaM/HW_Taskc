@@ -1,0 +1,41 @@
+===1===
+The Run method provides a simple way to start a task using default values and without requiring additional parameters.
+The TaskFactory.StartNew method let you specify parameters to pass to the task creation options and a task scheduler.
+
+===2===
+The ContinueWith method creates a continuation that receives caller-supplied 
+state information and executes when the target Task completes.
+
+===3===
+ContinueWith(Action<Task>)
+Creates a continuation that executes asynchronously when the target Task completes.
+
+===4===
+Dependency Injection (DI) is a software design pattern. It allows us to develop loosely-coupled code. For example, 
+continue to the next task only if the previous task completed successfully
+
+===5===
+CancellationTokenSource tokenSource = new CancellationTokenSource();
+
+Task t5 = Task.Run(() => { Print(tokenSource); });
+
+tokenSource.Cancel();
+
+===6===
+ I have to implement it myself
+
+===7===
+if Task is canceled => Exception
+
+===8===
+AggregateException is used to consolidate multiple failures into a single, throwable exception object.
+This exception was chosen for Task because the exception may apply to different tasks
+
+===9===
+The exception thrown inside a tasks does not “crash” the program because tasks are running on a background threads
+
+===10===
+Use the Task.Exception.Handle method
+
+===11===
+Aggregation Exception will be thrown
