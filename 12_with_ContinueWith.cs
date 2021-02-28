@@ -9,8 +9,10 @@ namespace TasksHW
 {
     class Program
     {
-        static void Main(string[] args)
+       static void Main(string[] args)
         {
+            CancellationTokenSource tokenSource = new CancellationTokenSource();
+
             int number = 1;
             int sum = 0;
 
@@ -20,44 +22,46 @@ namespace TasksHW
                 Console.Write($"{number} + ");
                 sum = number;
                 return sum;
-                
-            } ).ContinueWith((Task<int> result) =>
-            {
-                tokenSource.Token.ThrowIfCancellationRequested();
-                Thread.Sleep(500);
-                number++;
-                Console.Write($"{number} + ");
-                return result.Result + number ;
-                
-            }).ContinueWith((Task<int> result) =>
+
+            }, tokenSource.Token).ContinueWith((Task<int> result) =>
             {
                 tokenSource.Token.ThrowIfCancellationRequested();
                 Thread.Sleep(500);
                 number++;
                 Console.Write($"{number} + ");
                 return result.Result + number;
-               
-            }).ContinueWith((Task<int> result) =>
+
+            }, tokenSource.Token).ContinueWith((Task<int> result) =>
             {
                 tokenSource.Token.ThrowIfCancellationRequested();
                 Thread.Sleep(500);
                 number++;
                 Console.Write($"{number} + ");
                 return result.Result + number;
-     
-            }).ContinueWith((Task<int> result) =>
+
+            }, tokenSource.Token).ContinueWith((Task<int> result) =>
+            {
+                tokenSource.Token.ThrowIfCancellationRequested();
+                Thread.Sleep(500);
+                number++;
+                Console.Write($"{number} + ");
+                return result.Result + number;
+
+            }, tokenSource.Token).ContinueWith((Task<int> result) =>
             {
                 tokenSource.Token.ThrowIfCancellationRequested();
                 Thread.Sleep(500);
                 number++;
                 Console.Write($"{number}");
                 return result.Result + number;
-                
-            });
-       
+
+            }, tokenSource.Token);
+
             Console.ReadLine();
 
             tokenSource.Cancel();
+
+
             try
             {
                 Console.WriteLine($" = {t.Result}");
@@ -66,7 +70,9 @@ namespace TasksHW
             {
                 Console.WriteLine(ex);
             }
+            Console.WriteLine(t.IsCanceled);
+            Console.WriteLine(t.IsFaulted);
 
-        } 
+        }
     }
 }
